@@ -1,0 +1,8 @@
+.details p {
+    /* Your CSS styles for <p> tags within the details class */
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+.details h5{
+    font-weight: bold;
+}

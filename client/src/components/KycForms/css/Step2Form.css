@@ -1,0 +1,90 @@
+.step2-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: #f9f8f8; /* Light gray background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.contact-card {
+  padding: 5%;
+  border-radius: 4px;
+  background-color: #fff; /* White card background */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle card shadow */
+  padding: 2rem; /* Adjust padding as desired */
+  border: "0px solid black"
+}
+
+.card-content {
+  padding: 0.5rem;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.resend-otp {
+  text-decoration: none;
+  color: #007bff; 
+}
+.generate-otp-button {
+  width: 100%; /* Fill the entire container width */
+  padding: 10px 10px; /* Adjust padding as needed */
+  border: none; /* Remove default border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Adjust font size if needed */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Indicate clickable element */
+  color:white;
+  background-image: linear-gradient(to bottom, #007bff, #0062cc); /* Blue gradient */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle box-shadow for depth */
+  transition: all 0.2s ease-in-out; /* Smooth transition on hover */
+}
+
+.generate-otp-button:hover {
+  background-image: linear-gradient(to bottom, #0062cc, #004c99); /* Darken gradient on hover */
+  transform: translateY(-2px); /* Slight upward movement on hover */
+}
+
+.generate-otp-button:disabled {
+  background-image: linear-gradient(to bottom, #ccc, #bbb); /* Gray out disabled button */
+  cursor: default; /* Remove hover effect for disabled state */
+}
+
+
+.custom-form-control {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem; /* Adjust margin as needed */
+}
+
+.custom-form-control label {
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  padding: 5px 10px;
+  font-size: 0.8rem; /* Adjust font size if needed */
+  color: #007bff; /* Primary blue from Bootstrap */
+  background-color: #fff;
+  font-weight: bold;
+}
+
+.custom-form-control select {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #007bff; /* Primary blue from Bootstrap */
+}
+
+.custom-form-control option,
+.custom-form-control optgroup {
+  font-size: 0.8rem; /* Adjust font size if needed */
+  font-weight: normal;
+}
+
+.custom-form-control option:hover {
+  background-color: #e7f0fe; /* Lighter blue on hover */
+}

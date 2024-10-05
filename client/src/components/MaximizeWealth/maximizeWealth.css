@@ -1,0 +1,189 @@
+.wealth-container {
+    background-image: linear-gradient(to bottom, #ffffff, #b2a0fe);
+    width: 100%;
+    margin: 0 auto;
+    padding: 5%;
+}
+
+.inside-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items at the start */
+}
+
+.leftColumn {
+    flex: 0 0 60%;
+    display: flex;
+    flex-direction: column; /* Align text vertically */
+    margin: 0;
+}
+
+.rightColumn {
+    flex: 0 0 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the image vertically */
+}
+
+.maximizeWealthText {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #6a54cf;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    margin: 10px 0;
+}
+
+.industryLeadingText {
+    font-family: "Merriweather", serif;
+    font-size: 5rem;
+    font-weight: 900;
+    font-style: normal;
+    margin-bottom: 15px;
+    color: #6a54cf;
+}
+
+.mobileImageContainer {
+    width: 100%;
+    display: flex;
+    justify-content: top;
+}
+
+.mobileImage {
+    width: 100%;
+    height:auto;
+}
+.buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.appButton {
+    display: inline-block;
+    margin: 5px 0;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 12px; /* Adjust font size */
+    transition: background-color 0.3s ease;
+}
+
+.appButton img {
+    width: 80%; /* Adjust the width of the icon */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.appButton:hover {
+    cursor: pointer;
+}
+.investment-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px; /* Adjust margin as needed */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 calc(25% - 20px); /* Adjust card width */
+    max-width: 350px;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.card img {
+    max-width: 90%; /* Adjust the maximum width of the image */
+    height: auto;
+    margin-bottom: 4px;
+}
+.card h4{
+    font-weight: 600;
+    color: #6a54cf;
+}
+@media (max-width: 767px) {
+    .inside-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .leftColumn {
+        flex: 1;
+        width: 100%;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .rightColumn {
+        flex: 1;
+        max-width: 100%;
+        width: 100%;
+    }
+    .maximizeWealthText {
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    .industryLeadingText {
+        font-weight: 900;
+        font-style: normal;
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+    .mobileImage {
+        width: 100%;
+        height:auto;
+    }
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    .appButton {
+        margin: 5px;
+    }
+
+    .appButton img {
+        width: 100%;
+    }
+
+    .investment-section {
+        margin-top: 50px;
+    }
+
+    .card {
+        flex: 0 0 40%;
+        max-width: 100%;
+        padding: 10px 15px;
+    }
+    .card h4{
+        font-size:small;
+    }
+    .card img {
+        max-width: 45%; /* Adjust the maximum width of the image */
+        height: auto;
+    }
+}

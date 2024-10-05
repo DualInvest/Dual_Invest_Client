@@ -1,0 +1,75 @@
+.investor-reviews-container {
+  text-align: center;
+  max-width: 100%; /* Ensures container width doesn't exceed screen */
+  width: 100%; /* Ensures container occupies 100% of available width */
+  padding: 5%;
+}
+
+.reviews-heading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #6a54cf;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-prev,
+.slick-next {
+  color: #6a54cf;
+}
+
+.review-card {
+  background-color: #fff; /* White background */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  width: calc(33.33% - 70px); /* Adjusted width for spacing and quote marks */
+  margin: 0 10px 15px 0; /* Increased spacing between cards */
+  position: relative;
+  box-shadow: 0 5px 20px rgb(180, 105, 218); /* Subtle shadow for depth */
+  transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+.review-card:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.review-text {
+  font-size: 1rem;
+  font-style: italic; /* Italic for review text */
+  margin: 10px 0;
+  text-align: justify; /* Justified text for better readability */
+  height: 100px; /* Adjust height as needed */
+  overflow: hidden; /* Prevent text overflow */
+  position: relative; /* Required for quote mark positioning */
+  padding-left: 20px; /* Space for opening quote mark */
+  padding-right: 20px; /* Space for closing quote mark */
+}
+
+.reviewer-info {
+  font-size: 0.8rem; /* Smaller font for reviewer name */
+  margin-top: 10px;
+  text-align: right;
+}
+
+.reviewer-name {
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .investor-reviews-container {
+    text-align: center;
+    max-width: 100%; /* Ensures container width doesn't exceed screen */
+    width: 100%; /* Ensures container occupies 100% of available width */
+    padding: 5%;
+  }
+  .reviews-heading {
+    font-size: 1.1rem;
+  }
+  
+  .review-card {
+    width: 80%; /* 80% width for smaller screens */
+  }
+}

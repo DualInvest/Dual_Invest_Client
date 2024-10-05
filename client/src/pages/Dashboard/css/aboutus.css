@@ -1,0 +1,22 @@
+.center{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.component{
+    font-weight: bold;
+    box-shadow: 0 0 10px #000000;
+    background: linear-gradient(90deg, rgba(135,132,220,1), #ffffff);
+}
+
+@media(max-width: 768px){
+    .center{
+        flex-direction: column;
+    }
+}
+
+.sizeClass{
+    font-size: 20px;
+    background: linear-gradient(90deg, rgba(135,132,220,1), #ffffff);
+}

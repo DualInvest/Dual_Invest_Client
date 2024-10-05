@@ -1,0 +1,20 @@
+.nav-background {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, rgba(99, 96, 193, 1) 0%, rgba(135, 132, 220, 1) 35%, rgba(178, 160, 254, 1) 100%);
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+.nav-background img {
+    height: 50px;
+    width: 70px;
+}
+
+.nav-background button {
+    background-color: rgb(89, 86, 194);
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 20px;
+}

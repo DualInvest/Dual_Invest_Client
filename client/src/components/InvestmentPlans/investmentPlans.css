@@ -1,0 +1,172 @@
+.slider-container {
+    max-width: 100%;
+    overflow: hidden;
+    justify-content: center;
+    margin: 0 auto;
+    background-image: linear-gradient(to bottom, #ffffff, #b2a0fe);
+    padding: 2%;
+  }
+  
+  .numbers-image-container {
+    max-width: 100%;
+    padding: 5%;
+    text-align: center;  }
+  
+  .numbers-image {
+    width: 100%;
+    height: auto;
+  }
+  .crore-heading{
+    font-size: 2.5rem;
+    font-weight: 900;
+    font-style: normal;
+    margin-bottom: 15px;
+    color: #6a54cf;
+    margin-bottom: 5%;
+  }
+  .subheading-crore{
+    font-size: 1.9rem;
+    margin-bottom: 10px;
+    color: #6a54cf;
+    margin-bottom: 4%;
+    font-weight: 700;
+  }
+  .content-crore
+  {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: grey;
+    margin-bottom: 4%;
+  }
+  .leftColumnInvestment {
+    flex: 0 0 40%;    
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the image vertically */
+}
+
+.rightColumnInvestment {
+    flex: 0 0 60%;
+    display: flex;
+    flex-direction: column; /* Align text vertically */
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 5%;
+}
+  .slides-container {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    align-items: center;
+  }
+  .ReturnGrowText{
+    font-family: "Merriweather", serif;
+    font-size: 3rem;
+    font-weight: 900;
+    font-style: normal;
+    margin-bottom: 15px;
+    color: #6a54cf;
+    margin-bottom: 5%;
+  }
+  .DailyReturnText{
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #6a54cf;
+    margin-bottom: 4%;
+  }
+  /* .arrows-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 2;
+  }
+  
+  .arrow {
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  } */
+  
+  .slide {
+    width: 100%;
+    padding: 5%;
+    position: relative;
+  }
+  .slide-image{
+    width: 90%;
+    height: auto;
+  }
+  .button-container{
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .invest-button {
+    width: 25%;
+    background-color: #fff;
+    color: rgba(145, 92, 220, 1);
+    font-weight: bold;
+    font-size: 22px;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+  
+  .dot {
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ccc;
+    transition: transform 0.3s ease;
+  }
+  
+  .dot.active {
+    transform: scale(1.2);
+    color: #000;
+  }
+  @media (max-width:768px){
+    .leftColumnInvestment {
+      flex: 1;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+  }
+
+  .rightColumnInvestment {
+      flex: 1;
+      max-width: 100%;
+      width: 100%;
+      text-align: center;
+  }
+  .ReturnGrowText{
+    font-size: 2rem;
+    font-weight: 800;
+    font-style: normal;
+    margin-bottom: 10%;
+  }
+  .DailyReturnText{
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #6a54cf;
+    margin-bottom: 10%;
+  }
+    .invest-button{
+      width: 60%;
+      margin: 0 auto;
+    }
+  }

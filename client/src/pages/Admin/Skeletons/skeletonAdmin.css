@@ -1,0 +1,19 @@
+.skeleton-container {
+    margin-top: 20px;
+}
+
+.skeleton-item {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.skeleton-header {
+    height: 40px;
+    width: 100%;
+}
+
+.skeleton-list {
+    height: 70px;
+    width: 100%;
+}

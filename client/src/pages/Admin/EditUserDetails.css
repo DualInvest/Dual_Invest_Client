@@ -1,0 +1,45 @@
+.edit-user-container{
+    width:90%;
+    margin: 0 auto;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+.user-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 1%;
+    margin: 5%;
+  }
+  
+  .detail {
+    display: flex;
+    align-items: center;
+  }
+  
+  .detail label {
+    flex: 1;
+  }
+  
+  .detail input {
+    flex: 2;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .update-button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .update-button:hover {
+    background-color: #0056b3;
+  }
+  

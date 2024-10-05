@@ -1,0 +1,79 @@
+
+  p {
+    font-size: 13px;
+  }
+  
+  
+  .profile-card {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.list-design {
+    margin-bottom: 10px;
+}
+
+.list-design .fw-bold {
+    margin-bottom: 5px;
+}
+
+.list-design .badge {
+    white-space: nowrap;
+}
+
+
+  h1{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .summary-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(220, 213, 245);
+    border-radius: 20px;
+    padding: 15px;
+    width: 400px; /* Set a fixed width for better alignment */
+  }
+  
+  @media (max-width: 768px) {
+      .summary-item {
+          width: 100%; /* Make the items full width on mobile */
+      }
+}
+
+.item-label {
+  font-size: 20px;
+    font-weight: bold;
+}
+
+.item-value {
+  font-size: 20px;
+    font-weight: bold;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 15px;
+  width:700px; 
+}
+
+@media (max-width: 768px) {
+    .box {
+        width: 100%;
+    }
+}

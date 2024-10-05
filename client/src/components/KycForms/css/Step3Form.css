@@ -1,0 +1,27 @@
+.step3-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background-color: #eeeeee; /* Light gray background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+.custom-text-field {
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
+    transition: all 0.2s ease-in-out; /* Smooth transition on focus */
+  }
+  
+  .custom-text-field:focus {
+    border: 1px solid #007bff; /* Blue border on focus */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Enhanced shadow on focus */
+  }
+  
+  .custom-text-field label {
+    color: #333; /* Adjust label text color */
+    font-weight: normal; /* Lighter label font weight */
+  }
+  

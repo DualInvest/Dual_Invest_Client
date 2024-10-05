@@ -1,0 +1,60 @@
+.container-signin {
+  padding: 9%;
+}
+.signin-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 3px 5px #0056b3;
+  border-radius: 5px;
+  background: linear-gradient(90deg, rgba(79,96,193,1) 0%, rgba(135,132,220,1) 35%, rgba(178,160,254,1) 100%);
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.signup-link {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.signup-link-text {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.signin-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: white;
+  color: rgba(135,132,220,1);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signin-button:hover {
+  color: white;
+  background-color: rgba(135,132,220,1);
+}
