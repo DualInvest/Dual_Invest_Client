@@ -31,6 +31,7 @@
     "react-slick": "^0.30.2",
     "redux": "^5.0.1",
     "slick-carousel": "^1.8.1",
+    "tata_invest": "file:",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
