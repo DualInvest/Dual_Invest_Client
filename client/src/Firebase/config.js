@@ -8,6 +8,8 @@ import { getStorage  } from 'firebase/storage';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
+// Production 
+
 const firebaseConfig = {
   apiKey: "AIzaSyC_Tcx4yIyJCfJK6VhpHRM8Vq9TRKK6dgU",
   authDomain: "tatainvest-71bd6.firebaseapp.com",
@@ -17,6 +19,19 @@ const firebaseConfig = {
   appId: "1:1022642675405:web:2eebe654aa302eb17e9384",
   measurementId: "G-TR5BYENGCZ"
 };
+
+
+// // Development 
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAGDTKWejWbB3kB_Ot-3R3wJo-mFH_rNeA",
+//   authDomain: "dualinvestdev.firebaseapp.com",
+//   projectId: "dualinvestdev",
+//   storageBucket: "dualinvestdev.appspot.com",
+//   messagingSenderId: "520409963110",
+//   appId: "1:520409963110:web:3cefa6ca0b0113cd3deba7",
+//   measurementId: "G-Q5SCZL4Q1C"
+// };
 
 
 // Initialize Firebase
