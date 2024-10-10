@@ -1,0 +1,10 @@
+11 October 2024 
+
+1.  Deposit / withdrawal status in statement (pending first then rejected and successfully)
+--> DONE 
+
+2.  No multiple KYC req . Only once it should be done . Then it should show rejected and successful status … if rejected then again submit KYC . 
+--> DONE 
+
+3. No multiple withdrawal… just once .. if it’s rejected then one can again apply for withdrawal.
+-->DONE 

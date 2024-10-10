@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, setPersistence, browserSessionPersistence, deleteUser } from "firebase/auth";
-import { getFirestore, setDoc, addDoc, doc, getDoc, deleteDoc,query, where, collection, getDocs,updateDoc, arrayUnion} from "firebase/firestore";
+import { getFirestore, setDoc, addDoc, doc, getDoc, deleteDoc,query, where, collection, getDocs,updateDoc} from "firebase/firestore";
 import { getStorage  } from 'firebase/storage';
 
 // Your web app's Firebase configuration
@@ -100,6 +100,8 @@ export const createUserDocumentFast2SMS = async (userId, name, parentReferralCod
         investmentTransactions: [],
         withdrawalTransactions: [],
         kycDone: false,
+        kycReq:"",
+        withdrawalReq:"",
         referralUsers: [],
         createdAt: new Date(),
         documentUrl: ''
@@ -202,7 +204,10 @@ export const updateWithdrawalTransactionsArray = async(parentRef, withdrawalDeta
       const withdrawalTransactions = parentData.withdrawalTransactions || [];
       if (!withdrawalTransactions.includes(withdrawalDetails)) {
         withdrawalTransactions.push(withdrawalDetails);
-        await updateDoc(parentRef, { withdrawalTransactions: withdrawalTransactions });
+        await updateDoc(parentRef, { 
+          withdrawalTransactions: withdrawalTransactions,
+          withdrawalReq:"pending"
+         });
         console.log("withdrawal Transaction array updated successfully!");
       }
     } else {
@@ -318,6 +323,10 @@ export const createKYCApprovalRequest = async (userId, aadharUrl,panUrl,accountN
       email:email,
     });
 
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      kycReq:"pending"
+    });
     // Retrieve the user document
     // const userRef = doc(db, 'users',userId);
 
@@ -337,7 +346,8 @@ export const acceptKYCApprovalRequest = async (userId, aadharURL,panURL,accountN
       accountNumber:accountNumber,
       ifscCode:ifscCode,
       cardholderName:cardholderName,
-      kycDone: true
+      kycDone: true,
+      kycReq:"accepted"
     });
 
     console.log('Document URL updated successfully');
@@ -347,6 +357,10 @@ export const acceptKYCApprovalRequest = async (userId, aadharURL,panURL,accountN
 }
 export const rejectKYCApprovalRequest = async (userId, downloadURL1,documentURL2,accountNumber, ifscCode, cardholderName) => {
   try {
+    const userRef = doc(db, "users", userId);
+    await updateDoc(userRef, {
+      kycReq:"rejected"
+    });
     console.log('KYC Approval Rejected Succesfully');
   } catch (error) {
     console.error('Error updating document URL:', error);

@@ -15,6 +15,7 @@ export default function AdminDashboard() {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true); // Add loading state
     const [loadingTransactions, setLoadingTransactions] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const history = useNavigate();
 
@@ -54,17 +55,21 @@ export default function AdminDashboard() {
         await fetchTransactions(user);
         setShowModal(true);
     };
-    
+
 
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedUser(null);
     };
     const handleDeleteUser = async () => {
-        try{
+        // console.log("Deleting user:", selectedUser); // Check if this message appears in the console
+        
+        setIsDeleting(true);
+        try {
             await deleteDocument("users", selectedUser.referralCode)
+            setIsDeleting(false);
         }
-        catch(err){
+        catch (err) {
             console.log("error while deleting user", err);
         }
     }
@@ -158,7 +163,7 @@ export default function AdminDashboard() {
                                 <p>Registration Date: {formatDate(new Date(selectedUser.createdAt._seconds * 1000))}</p>
                             )}
                             <p>Name : {selectedUser.name}</p>
-                            <p>KYC : {selectedUser.kycDone ? "DONE" : "NOT DONE"}</p>
+                            <p>KYC : {selectedUser.kycDone ? "DONE" : selectedUser.kycReq == "pending" ? "Request Pending" : "NOT DONE"}</p>
                             {selectedUser.kycDone &&
                                 <div>
                                     <p>
@@ -239,9 +244,9 @@ export default function AdminDashboard() {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleDeleteUser}>
-                        Delete User
-                    </Button>
+                <Button variant="danger" onClick={handleDeleteUser} disabled={isDeleting}>
+            {isDeleting ? 'Deleting...' : 'Delete User'}
+        </Button>
                     <Button variant="secondary" onClick={handleCloseModal}>
                         Close
                     </Button>

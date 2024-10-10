@@ -168,7 +168,7 @@ const Statement = () => {
                                         style={{ border: '2px solid black' }}>
                                             <h6 style={{paddingRight:'10px'}}>{index + 1} .</h6>
                                             <div className="payment-item-details">
-                                                <p className="payment-item-name"><strong>Amount:</strong> ₹ {withdrawal.amount.toFixed(2)}</p>
+                                                <p className="payment-item-name"><strong>Amount:</strong> ₹ {Number(withdrawal.amount).toFixed(2)}</p>
                                                 <p className="payment-item-name"><strong>Status:</strong> {
                                                     withdrawal.status === 'pending' ? <>Pending  <i class="fa fa-clock-o" aria-hidden="true"></i>
                                                     </>

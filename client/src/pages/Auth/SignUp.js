@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { auth, createUserDocument, createUserDocumentFast2SMS } from "../../Firebase/config.js";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { createUserDocumentFast2SMS } from "../../Firebase/config.js";
+// import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./signUp.css";
 import { useDispatch } from "react-redux";

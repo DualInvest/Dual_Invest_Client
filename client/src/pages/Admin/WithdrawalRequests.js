@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 import './css/withdrawalRequests.css'; // Updated CSS file path
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../Firebase/config.js';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { formatDate } from './FormatDate.js'; // Import formatDate function
 
 export default function WithdrawalRequest() {
@@ -14,7 +14,7 @@ export default function WithdrawalRequest() {
     const [acceptButtonLoading, setAcceptButtonLoading] = useState(false); // Add loading state for accept button
     const [rejectButtonLoading, setRejectButtonLoading] = useState(false); // Add loading state for reject button
 
-    const history = useNavigate();
+    // const history = useNavigate();
 
     useEffect(() => {
         const fetchWithdrawalRequests = async () => {
@@ -54,6 +54,7 @@ export default function WithdrawalRequest() {
                 balance += userData.withdrawableAmount; // Subtracting from existing balance
                 await updateDoc(userRef, {
                     withdrawableAmount: balance,
+                    withdrawalReq: "accepted",
                 });
                 fetch('/send-email-withdrawal-accepted', {
                     method: 'POST',
@@ -100,6 +101,9 @@ export default function WithdrawalRequest() {
                 req.id === request.id ? { ...req, status: 'rejected' } : req
             ));
             const userRef = doc(db, 'users', userId);
+            await updateDoc(userRef, {
+                withdrawalReq: "rejected",
+            });
             const userSnapshot = await getDoc(userRef);
             if (userSnapshot.exists()) {
                 const userData = userSnapshot.data();

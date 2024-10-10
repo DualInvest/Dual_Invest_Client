@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Button, TextField } from '@mui/material';
+import { CardContent, Typography, Button, TextField } from '@mui/material';
+// import { Card, CardContent, Typography, Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { storage, updateDocumentUrlsAndBankDetails } from '../../Firebase/config.js';
+// import { storage, updateDocumentUrlsAndBankDetails } from '../../Firebase/config.js';
+import { storage } from '../../Firebase/config.js';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import ToastMessage from '../Toast/Toast.js';
 import { getUser } from '../../utils/getUser.js';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Accordion, Card, Button } from 'react-bootstrap';
+// import { Container, Accordion, Card, Button } from 'react-bootstrap';
 
 const FAQs = () => {
 

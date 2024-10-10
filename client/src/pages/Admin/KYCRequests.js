@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Modal } from 'react-bootstrap';
+import { Button} from 'react-bootstrap';
 // import './css/KYCRequests.css';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../Firebase/config.js';
-import { useNavigate } from 'react-router-dom';
-import { formatDate } from './FormatDate.js';
+// import { useNavigate } from 'react-router-dom';
+// import { formatDate } from './FormatDate.js';
 import { acceptKYCApprovalRequest,rejectKYCApprovalRequest } from '../../Firebase/config.js';
 
 export default function KYCRequest() {
     const [KYCRequests, setKYCRequests] = useState([]);
-    const [selectedKYCRequest, setSelectedKYCRequest] = useState(null);
+    // const [selectedKYCRequest, setSelectedKYCRequest] = useState(null);
     const [acceptButtonLoading, setAcceptButtonLoading] = useState(false); // Add loading state for accept button
     const [rejectButtonLoading, setRejectButtonLoading] = useState(false); // Add loading state for reject button
-    const [showModal, setShowModal] = useState(false);
-    const history = useNavigate();
+    // const [showModal, setShowModal] = useState(false);
+    // const history = useNavigate();
 
     useEffect(() => {
         const fetchKYCRequests = async () => {
@@ -82,10 +82,10 @@ export default function KYCRequest() {
         }
     };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedKYCRequest(null);
-    };
+    // const handleCloseModal = () => {
+    //     setShowModal(false);
+    //     setSelectedKYCRequest(null);
+    // };
 
     return (
         <div className="payment-container">

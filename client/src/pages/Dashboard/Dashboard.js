@@ -9,8 +9,8 @@ import { investmentPlansSlidesMobile } from "../../data.js";
 import { createWithdrawalApprovalRequest } from "../../Firebase/config.js";
 import WithdrawalForm from "../../components/WithdrawalForm/Withdrawalform.js";
 import SlidingImages from "../../components/SlidingImages/SlidingImages.js"
-import axios from "axios";
-import { connectStorageEmulator } from "firebase/storage";
+// import axios from "axios";
+// import { connectStorageEmulator } from "firebase/storage";
 import { Typography } from "@mui/material";
 
 function DashboardScreen() {
@@ -44,17 +44,17 @@ function DashboardScreen() {
             history('/login');
             return;
         }
-    
+
         if (!userData.kycDone) {
             alert("Your KYC is not done. Please complete KYC to withdraw money.");
             console.log("withdraw button clicked");
             return;
         }
-    
+
         setFormOpen(true);
         console.log("withdraw button clicked");
     };
-    
+
     const handleWithdrawalSubmit = async (amount) => {
         console.log("withdrawal-amount", amount);
         if (!userData.kycDone) {
@@ -68,31 +68,31 @@ function DashboardScreen() {
             return;
         }
 
-        createWithdrawalApprovalRequest(fetchedUser, userData.name, userData.phone, amount,userData.accountNumber,userData.ifscCode,userData.cardholderName)
-        .then((response) => {
-             setWithdrawalApprovalRequest(true);
-             fetch('/send-email-withdrawal', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: userData.email,
-                    withdrawalAmount: amount,
-                    accountNumber: userData.accountNumber,
-                    ifscCode: userData.ifscCode,
-                    name: userData.name,
-                }),
-            }).then((res)=>{
-                console.log("email-sent succesfully");
+        createWithdrawalApprovalRequest(fetchedUser, userData.name, userData.phone, amount, userData.accountNumber, userData.ifscCode, userData.cardholderName)
+            .then((response) => {
+                setWithdrawalApprovalRequest(true);
+                fetch('/send-email-withdrawal', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: userData.email,
+                        withdrawalAmount: amount,
+                        accountNumber: userData.accountNumber,
+                        ifscCode: userData.ifscCode,
+                        name: userData.name,
+                    }),
+                }).then((res) => {
+                    console.log("email-sent succesfully");
+                })
+                    .catch((error) => {
+                        console.log("failed sending email", error);
+                    })
             })
-            .catch((error)=>{
-                console.log("failed sending email",error);
+            .catch((error) => {
+                console.log(error);
             })
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
     };
 
     const addMoneyOnClick = () => {
@@ -134,10 +134,10 @@ function DashboardScreen() {
                 </div>
             )}
             <WithdrawalForm open={formOpen} onClose={() => setFormOpen(false)} onSubmit={handleWithdrawalSubmit} />
-            <SlidingImages/>
-            <Typography className="mt-3" variant="p" style={{textAlign:'left', fontSize:'20px'}}>Hi <strong>{userData?.name}</strong>,</Typography>
+            <SlidingImages />
+            <Typography className="mt-3" variant="p" style={{ textAlign: 'left', fontSize: '20px' }}>Hi <strong>{userData?.name}</strong>,</Typography>
             <div className="dashboard-container">
-                <Typography variant="p" style={{textAlign:'left',fontSize:'20px',marginBottom:'2%'}}><strong>Invest and Earn</strong></Typography>
+                <Typography variant="p" style={{ textAlign: 'left', fontSize: '20px', marginBottom: '2%' }}><strong>Invest and Earn</strong></Typography>
                 <div className="progress-bar-container">
                     <ProgressBar investedAmount={((userData?.investedAmount) || 0) + ((userData?.withdrawableAmount) || 0)} />
                     <h6>Invest More Upto <strong>₹ 300000</strong></h6>
@@ -147,15 +147,15 @@ function DashboardScreen() {
                     <button
                         className="add-money-button btn-2"
                         onClick={handelWithdrawalApprovalRequest}
-                    >
-                        Withdraw
+                        disabled={userData?.withdrawalReq === "pending"}>
+                        {userData?.withdrawalReq === "pending" ? 'Req. sent ! Wait for approval !' : 'Withdraw'}
                     </button>
                 </center>
             </div>
             <center>
-                <div className="card-referral" style={{marginTop:"15px"}} >
+                <div className="card-referral" style={{ marginTop: "15px" }} >
                     <div className="card-body">
-                    <p>*Daily returns are subject to market fluctuation, and it may vary.</p>
+                        <p>*Daily returns are subject to market fluctuation, and it may vary.</p>
                     </div>
                 </div>
             </center>
@@ -191,7 +191,9 @@ function DashboardScreen() {
                         <h3><i className="fa fa-line-chart" aria-hidden="true"> </i> <br />Complete Your KYC in one minute</h3>
                         {userData?.kycDone ?
                             <button className="btn btn-success shadow" disabled={true}>KYC DONE</button> :
-                            <button className="action-button shadow" onClick={completeKYCOnClick}>ACTIVATE NOW</button>}
+                            userData?.kycReq === "pending" ?
+                                <button className="btn btn-warning shadow" disabled={true}>KYC Pending...</button> :
+                                <button className="action-button shadow" onClick={completeKYCOnClick}>ACTIVATE NOW</button>}
                     </div>
                     <div className="info-card learn-more-card">
                         <h3><i className="fa fa-usd" aria-hidden="true"> </i> <br />Know Your Earnings</h3>

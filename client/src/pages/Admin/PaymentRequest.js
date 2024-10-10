@@ -4,7 +4,7 @@ import { Button, Modal } from 'react-bootstrap';
 import './css/paymentRequests.css';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../Firebase/config.js';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { formatDate } from './FormatDate.js';
 
 export default function PaymentRequest() {
@@ -13,7 +13,7 @@ export default function PaymentRequest() {
     const [acceptButtonLoading, setAcceptButtonLoading] = useState(false); // Add loading state for accept button
     const [rejectButtonLoading, setRejectButtonLoading] = useState(false); // Add loading state for reject button
     const [showModal, setShowModal] = useState(false);
-    const history = useNavigate();
+    // const history = useNavigate();
 
     useEffect(() => {
         const fetchPaymentRequests = async () => {
