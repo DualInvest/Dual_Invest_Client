@@ -90,7 +90,7 @@ const AddMoneyPage = () => {
     }
   };
   const copyUPI = (UPI) => {
-    navigator.clipboard.writeText("pos.11164035@indus");
+    navigator.clipboard.writeText("41688507830@sbi");
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -164,9 +164,9 @@ const AddMoneyPage = () => {
               </div>
               <Form.Group className="mb-3">
                 <h6>Step - 1</h6><br></br>
-                <img src="/assets/upi_id.jpg" alt="QR Code" className="mb-2" />
+                <img src="/assets/upi_id_2.jpg" alt="QR Code" className="mb-2" />
                 <br></br>
-                <strong>UPI - pos.11164035@indus</strong> {copied ? (
+                <strong>UPI - 41688507830@sbi</strong> {copied ? (
                   <i className="fas fa-check-circle copied"></i>
                 ) : (
                   <i className="far fa-copy copy-icon" onClick={copyUPI}></i>
