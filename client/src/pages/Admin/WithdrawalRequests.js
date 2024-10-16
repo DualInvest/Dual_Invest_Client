@@ -21,8 +21,8 @@ export default function WithdrawalRequest() {
             try {
                 const response = await axios.get(`/api/getAllWithdrawalRequests`);
                 const sortedWithdrawalRequests = response.data.sort((a, b) => {
-                    const dateA = new Date(a.createdAt);
-                    const dateB = new Date(b.createdAt);
+                    const dateA = new Date(a.createdAt._seconds * 1000 + a.createdAt._nanoseconds / 1000000);
+                    const dateB = new Date(b.createdAt._seconds * 1000 + b.createdAt._nanoseconds / 1000000);
                     return dateB - dateA; // Sort in descending order (newest first)
                 });
 
@@ -141,14 +141,9 @@ export default function WithdrawalRequest() {
             <h1 className='text-center mt-5 my-5'>Withdrawal Requests</h1>
             <div className='my-5'>
                 <ul className="withdrawal-list-group"> {/* Updated list group class name */}
-                    {[...withdrawalRequests].sort((a, b) => {
-                        // Sort by status: pending requests first, then accepted, then rejected
-                        if (a.status === 'pending' && (b.status === 'accepted' || b.status === 'rejected')) return -1;
-                        if (b.status === 'pending' && (a.status === 'accepted' || a.status === 'rejected')) return 1;
-                        return 0;
-                    }).map((request, index) => (
+                    {[...withdrawalRequests].map((request, index) => (
                         <li
-                            key={request.userId}
+                            key={request.id}
                             className="withdrawal-item d-flex justify-content-between align-items-center"
                         >
                             <div className="withdrawal-item-details"> {/* Updated details class name */}

@@ -21,7 +21,7 @@ const firebaseConfig = {
 };
 
 
-// // Development 
+// Development 
 
 // const firebaseConfig = {
 //   apiKey: "AIzaSyAGDTKWejWbB3kB_Ot-3R3wJo-mFH_rNeA",

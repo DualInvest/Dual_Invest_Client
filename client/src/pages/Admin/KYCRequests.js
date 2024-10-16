@@ -5,7 +5,7 @@ import { Button} from 'react-bootstrap';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../Firebase/config.js';
 // import { useNavigate } from 'react-router-dom';
-// import { formatDate } from './FormatDate.js';
+import { formatDate } from './FormatDate.js';
 import { acceptKYCApprovalRequest,rejectKYCApprovalRequest } from '../../Firebase/config.js';
 
 export default function KYCRequest() {
@@ -21,8 +21,8 @@ export default function KYCRequest() {
             try {
                 const response = await axios.get(`/api/getAllKYCRequests`);
                 const sortedKYCRequests = response.data.sort((a, b) => {
-                    const dateA = new Date(a.createdAt);
-                    const dateB = new Date(b.createdAt);
+                  const dateA = new Date(a.createdAt._seconds * 1000 + a.createdAt._nanoseconds / 1000000);
+                  const dateB = new Date(b.createdAt._seconds * 1000 + b.createdAt._nanoseconds / 1000000);
                     return dateB - dateA; // Sort in descending order (newest first)
                 });
                 console.log(response.data);
@@ -92,14 +92,9 @@ export default function KYCRequest() {
           <h1 className='text-center mt-5 my-5'>KYC Requests</h1>
           <div>
             <ul className="payment-list-group">
-              {[...KYCRequests].sort((a, b) => {
-                // Sort by status: pending requests first, then accepted, then rejected
-                if (a.status === 'pending' && (b.status === 'accepted' || b.status === 'rejected')) return -1;
-                if (b.status === 'pending' && (a.status === 'accepted' || a.status === 'rejected')) return 1;
-                return 0;
-              }).map((request, index) => (
+              {[...KYCRequests].map((request, index) => (
                 <li
-                  key={request.userId}
+                  key={request.id}
                   className="payment-item d-flex flex-column align-items-start mb-3"
                 >
                   <div className="payment-item-details">
@@ -110,6 +105,8 @@ export default function KYCRequest() {
                     <small className="payment-item-amount"> <strong>IFSC</strong> :  {request.ifscCode}</small>
                     <br />
                     <small className="payment-item-amount"><strong>Acc Holder</strong> :  {request.cardHolderName}</small>
+                    <br />
+                    <i className="fas fa-calendar"></i> : {formatDate(new Date(request.createdAt._seconds * 1000))}
                     <br />
                     <p>
                       <strong>Aadhaar </strong> : <a href={request.aadharURL} download target="_blank">

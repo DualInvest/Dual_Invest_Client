@@ -9,7 +9,7 @@ import { formatDate } from './FormatDate.js';
 
 export default function PaymentRequest() {
     const [paymentRequests, setPaymentRequests] = useState([]);
-    const [selectedPaymentRequest, setSelectedPaymentRequest] = useState(null);
+    // const [selectedPaymentRequest, setSelectedPaymentRequest] = useState(null);
     const [acceptButtonLoading, setAcceptButtonLoading] = useState(false); // Add loading state for accept button
     const [rejectButtonLoading, setRejectButtonLoading] = useState(false); // Add loading state for reject button
     const [showModal, setShowModal] = useState(false);
@@ -19,12 +19,23 @@ export default function PaymentRequest() {
         const fetchPaymentRequests = async () => {
             try {
                 const response = await axios.get(`/api/getAllPaymentRequests`);
-                console.log(response.data);
+
                 const sortedPaymentRequests = response.data.sort((a, b) => {
-                    const dateA = new Date(a.createdAt);
-                    const dateB = new Date(b.createdAt);
-                    return dateB - dateA; // Sort in descending order (newest first)
+                            // Debugging: Log the createdAt fields
+                            // console.log("createdAt A:", a.createdAt);
+                            // console.log("createdAt B:", b.createdAt);
+        
+                            // Convert createdAt to Date objects
+                            const dateA = new Date(a.createdAt._seconds * 1000 + a.createdAt._nanoseconds / 1000000);
+                            const dateB = new Date(b.createdAt._seconds * 1000 + b.createdAt._nanoseconds / 1000000);
+                            
+                            // Debugging: Log the converted dates
+                            // console.log("Dates", dateA, dateB);
+                            
+                    // Sort in descending order (newest first)
+                    return dateB - dateA;
                 });
+                console.log(sortedPaymentRequests);
 
                 setPaymentRequests(sortedPaymentRequests);
             } catch (error) {
@@ -131,7 +142,7 @@ export default function PaymentRequest() {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setSelectedPaymentRequest(null);
+        // setSelectedPaymentRequest(null);
     };
 
     return (
@@ -139,14 +150,15 @@ export default function PaymentRequest() {
             <h1 className='text-center mt-5 my-5'>Payment Requests</h1>
             <div>
                 <ul className="payment-list-group">
-                    {[...paymentRequests].sort((a, b) => {
+                    {/* {[...paymentRequests].sort((a, b) => {
                         // Sort by status: pending requests first, then accepted, then rejected
                         if (a.status === 'pending' && (b.status === 'accepted' || b.status === 'rejected')) return -1;
                         if (b.status === 'pending' && (a.status === 'accepted' || a.status === 'rejected')) return 1;
                         return 0;
-                    }).map((request, index) => (
+                    }).map((request, index) => ( */}
+                    {[...paymentRequests].map((request, index) => (
                         <li
-                            key={request.userId}
+                            key={request.id}
                             className="payment-item d-flex justify-content-between align-items-center"
                         >
                             <div className="payment-item-details">

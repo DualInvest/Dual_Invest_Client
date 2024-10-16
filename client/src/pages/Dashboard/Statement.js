@@ -4,16 +4,29 @@ import { getDoc, doc } from "firebase/firestore";
 import './css/statement.css';
 import './../Admin/css/paymentRequests.css';
 
+
 const Statement = () => {
     const [userData, setUser] = useState(null);
     const [investedAmount, setInvestedAmount] = useState(0);
     const [referralAmount, setReferralAmount] = useState(0);
     const [interestAmount, setInterestAmount] = useState(0);
     const [withdrawableAmount, setWithdrawableAmount] = useState(0);
-    const [lifetimeEarning,setLifetimeEarning] = useState(0);
+    const [lifetimeEarning, setLifetimeEarning] = useState(0);
     const [selectedOption, setSelectedOption] = useState('investments');
     const [transactionsArray, settransactionsArray] = useState([]);
     const [withdrawalsArray, setwithdrawalsArray] = useState([]);
+    const [isCollapsed, setIsCollapsed] = useState(true);
+    const [expandedUserId, setExpandedUserId] = useState(null);
+    const [referredUsers, setReferredUsers] = useState([]);
+    const [nestedReferredUsersMap, setNestedReferredUsersMap] = useState({});
+
+    const toggleCollapse = () => {
+        setIsCollapsed(!isCollapsed);
+    };
+
+    const toggleCollapse_2 = (userId) => {
+        setExpandedUserId((prevUserId) => (prevUserId === userId ? null : userId));
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -61,7 +74,7 @@ const Statement = () => {
                 }));
                 const sortedWithdrawals = withdrawals.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
                 console.log('Transactions:', transactions);
-                console.log('Transactions:', withdrawals);
+                console.log('Withdrawals:', withdrawals);
                 settransactionsArray(sortedTransactions);
                 setwithdrawalsArray(sortedWithdrawals);
             }
@@ -70,7 +83,58 @@ const Statement = () => {
         fetchTransactions();
     }, [userData]);
 
+    useEffect(() => {
+        const fetchReferredUsers = async () => {
+            if (userData && userData.referralUsers.length > 0) {
+                const users = await Promise.all(
+                    userData.referralUsers.map(async (userId) => {
+                        const userDoc = await getDoc(doc(db, 'users', userId));
+                        return userDoc.data();
+                    })
+                );
+                setReferredUsers(users);
+                console.log('Referred Users:', users);
 
+            };
+        };
+        fetchReferredUsers();
+    }, [userData]);
+
+    useEffect(() => {
+        const fetchAllNestedUsers = async () => {
+            const nestedUsersMap = {};
+            for (const user of referredUsers) {
+                const nestedUsers = await fetchReferredUsers_2(user);
+                // console.log('Nested Users:', nestedUsers);
+                nestedUsersMap[user.referralCode] = nestedUsers;
+                // console.log('First Nested Users:', nestedUsersMap);
+                
+            }
+            setNestedReferredUsersMap(nestedUsersMap);
+            // console.log('Second Nested Users Map:', nestedUsersMap);
+        };
+
+        fetchAllNestedUsers();
+    }, [referredUsers]);
+    const fetchReferredUsers_2 = async (userData) => {
+        // console.log('userData:', userData);
+        try {
+            const users = await Promise.all(
+                userData.referralUsers.map(async (userId) => {
+                    const userDoc = await getDoc(doc(db, 'users', userId));
+                    return userDoc.data();
+                })
+            );
+            // console.log('Nested Referred Users:', users);
+            
+            return users;
+        } catch (error) {
+            console.error('Error fetching referred users:', error);
+            return [];
+        }
+    };
+
+  
 
     const handleToggle = (option) => {
         setSelectedOption(option);
@@ -98,10 +162,80 @@ const Statement = () => {
                     <p className="item-label">Interest Income:</p>
                     <p className="item-value">₹ {interestAmount}</p>
                 </div>
-                <div className="summary-item">
-                    <p className="item-label">Referral Income:</p>
+                <div className="summary-item" onClick={toggleCollapse} style={{ cursor: 'pointer' }}>
+                    <p className="item-label">Referral Income :  <i className="fas fa-chevron-down"></i> </p>
                     <p className="item-value">₹ {referralAmount || 0}</p>
                 </div>
+                {!isCollapsed && referredUsers.length > 0 && (
+                    <div className="referral-users">
+                        <center><strong>First Tier - Referred Users:{referredUsers.length} </strong></center>
+                        {referredUsers.map((user, index) => {
+                            const referralAmount = user.interestAmount * 0.03;
+                            const isFirstItem = index === 0;
+                            const isLastItem = index === referredUsers.length - 1;
+                            const nestedReferredUsers = nestedReferredUsersMap[user.referralCode] || [];
+
+                            return (
+                                <>
+                                    <div className="referral-item-1" style={{
+                                        borderTopLeftRadius: isFirstItem ? '20px' : '0',
+                                        borderTopRightRadius: isFirstItem ? '20px' : '0',
+                                        borderBottomLeftRadius: isLastItem ? '20px' : '0',
+                                        borderBottomRightRadius: isLastItem ? '20px' : '0',
+                                        cursor: 'pointer'
+                                    }}
+                                        key={index}
+                                        onClick={() => toggleCollapse_2(user.referralCode)} >
+                                        <p className="item-label">{user.name} <i className='fas fa-chevron-down'></i></p>
+                                        <p className="item-value">₹ {referralAmount.toFixed(2)}</p>
+                                    </div>
+                                    {
+                                        expandedUserId === user.referralCode && nestedReferredUsers.length > 0 && (
+                                            <div className="referral-users">
+                                                <center><strong>Second Tier - Referred Users: {nestedReferredUsers.length}</strong></center>
+
+                                                {nestedReferredUsers.map((nestedUser, nestedIndex) => {
+                                                        const nestedReferralAmount = nestedUser.interestAmount * 0.02;
+                                                        const isNestedFirstItem = nestedIndex === 0;
+                                                        const isNestedLastItem = nestedIndex === nestedReferredUsers.length - 1;
+                                                        return (
+                                                            <div
+                                                                className="referral-item-2"
+                                                                style={{
+                                                                    borderTopLeftRadius: isNestedFirstItem ? '20px' : '0',
+                                                                    borderTopRightRadius: isNestedFirstItem ? '20px' : '0',
+                                                                    borderBottomLeftRadius: isNestedLastItem ? '20px' : '0',
+                                                                    borderBottomRightRadius: isNestedLastItem ? '20px' : '0',
+                                                                    marginBottom: isNestedLastItem ? '10px' : '0',
+                                                                }}
+                                                                key={nestedIndex}
+                                                            >
+                                                                <p className="item-label">{nestedUser.name}</p>
+                                                                <p className="item-value">₹ {nestedReferralAmount.toFixed(2)}</p>
+                                                            </div>
+                                                        );
+                                                    })}
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        expandedUserId === user.referralCode && nestedReferredUsers.length === 0 && (
+                                            <div className="referral-users">
+                                                <center><strong>No Referred Users:</strong></center>
+                                            </div>
+                                        )
+                                    }
+                                </>
+
+                            )
+                        })}
+                    </div>
+                )}
+                {
+                    !isCollapsed && referredUsers.length === 0 && (
+                        <center><strong>No Referred Users:</strong></center>
+                    )
+                }
                 <div className="summary-item">
                     <p className="item-label">Life Time Earning:</p>
                     <p className="item-value">₹ {lifetimeEarning}</p>
@@ -130,12 +264,12 @@ const Statement = () => {
                             transactionsArray.length > 0 ? (
                                 <ul className="payment-list-group">
                                     {transactionsArray.map((transaction, index) => (
-                                        <li 
-                                        key={index}
-                                        className='payment-item d-flex justify-content-between align-items-center'
-                                        style={{ border: '2px solid black' }}
+                                        <li
+                                            key={index}
+                                            className='payment-item d-flex justify-content-between align-items-center'
+                                            style={{ border: '2px solid black' }}
                                         >
-                                            <h6 style={{paddingRight:'10px'}}>{index + 1} .</h6>
+                                            <h6 style={{ paddingRight: '10px' }}>{index + 1} .</h6>
                                             <div className="payment-item-details">
                                                 <p className="payment-item-name"><strong>UTR No:</strong> {transaction.UTR}</p>
                                                 <p className="payment-item-name"><strong>Amount:</strong> ₹ {transaction.amount}</p>
@@ -161,12 +295,12 @@ const Statement = () => {
                             userData.withdrawalTransactions && userData.withdrawalTransactions.length > 0 ? (
                                 <ul className="payment-list-group">
                                     {withdrawalsArray.map((withdrawal, index) => (
-                                        <li 
-                                        key={index}
-                                        className='payment-item d-flex justify-content-between align-items-center'
-                                        
-                                        style={{ border: '2px solid black' }}>
-                                            <h6 style={{paddingRight:'10px'}}>{index + 1} .</h6>
+                                        <li
+                                            key={index}
+                                            className='payment-item d-flex justify-content-between align-items-center'
+
+                                            style={{ border: '2px solid black' }}>
+                                            <h6 style={{ paddingRight: '10px' }}>{index + 1} .</h6>
                                             <div className="payment-item-details">
                                                 <p className="payment-item-name"><strong>Amount:</strong> ₹ {Number(withdrawal.amount).toFixed(2)}</p>
                                                 <p className="payment-item-name"><strong>Status:</strong> {

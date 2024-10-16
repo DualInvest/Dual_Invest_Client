@@ -47,9 +47,29 @@
     padding: 15px;
     width: 400px; /* Set a fixed width for better alignment */
   }
+  .referral-item-1{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(200, 240, 185);
+    padding: 15px;
+    width: 400px; /* Set a fixed width for better alignment */
+  }
+  .referral-item-2{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(241, 226, 169);
+    padding: 15px;
+    width: 400px; /* Set a fixed width for better alignment */
+  }
   
   @media (max-width: 768px) {
       .summary-item {
+          width: 100%; /* Make the items full width on mobile */
+      }
+      .referral-item-1 {
+          width: 100%; /* Make the items full width on mobile */
+      }
+      .referral-item-2 {
           width: 100%; /* Make the items full width on mobile */
       }
 }
