@@ -7,6 +7,7 @@ import { db, storage, createPaymentApprovalRequest } from '../../Firebase/config
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Container, Typography } from '@mui/material';
 import './css/addmoney.css';
+import { retrieveUserIdSecurely } from '../Auth/StoreUserSecurely.js';
 
 const AddMoneyPage = () => {
   const location = useLocation();
@@ -17,7 +18,7 @@ const AddMoneyPage = () => {
   const query = new URLSearchParams(location.search);
   const [utrNumber, setUtrNumber] = useState('');
   const [screenshot, setScreenshot] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [paymentRequestStatus, setPaymentRequestStatus] = useState('idle'); // New state for tracking request status
   const [copied, setCopied] = useState(false);
 
@@ -29,12 +30,13 @@ const AddMoneyPage = () => {
   };
   const handleSuggestionClick = (value) => {
     setAmount(value);
-  };
+  }; 
   const validateFields = () => {
     return !!amount && !!utrNumber && screenshot;
   };
 
-  const fetchedUser = localStorage.getItem('userId');
+  // const fetchedUser = localStorage.getItem('userId');
+  const fetchedUser = retrieveUserIdSecurely();
 
   useEffect(() => {
     const amount1 = query.get("amount");
@@ -58,25 +60,25 @@ const AddMoneyPage = () => {
     }
   }, [fetchedUser, history]);
 
-  const handleUpdateInfo = async (investedAmount, transactionId) => {
-    try {
-      const userRef = doc(db, 'users', fetchedUser);
-      await updateDoc(userRef, {
-        investedAmount: user.investedAmount + Number(investedAmount),
-        investmentTransactions: [...user.investmentTransactions,
-        {
-          transactionId: transactionId,
-          amount: Number(investedAmount),
-          date: new Date(),
-        }
-        ]
-      });
-      console.log('User info updated successfully!');
-      history('/profile');
-    } catch (error) {
-      console.error('Error updating user name:', error);
-    }
-  };
+  // const handleUpdateInfo = async (investedAmount, transactionId) => {
+  //   try {
+  //     const userRef = doc(db, 'users', fetchedUser);
+  //     await updateDoc(userRef, {
+  //       investedAmount: user.investedAmount + Number(investedAmount),
+  //       investmentTransactions: [...user.investmentTransactions,
+  //       {
+  //         transactionId: transactionId,
+  //         amount: Number(investedAmount),
+  //         date: new Date(),
+  //       }
+  //       ]
+  //     });
+  //     console.log('User info updated successfully!');
+  //     history('/profile');
+  //   } catch (error) {
+  //     console.error('Error updating user name:', error);
+  //   }
+  // };
 
   const uploadScreenshot = async (screenshotFile) => {
     try {
@@ -99,7 +101,7 @@ const AddMoneyPage = () => {
 
   const handelPaymentApprovalRequest = async () => {
     if (validateFields()) {
-      setLoading(true);
+      // setLoading(true);
       setPaymentRequestStatus('processing'); // Update status
       const screenshotUrl = await uploadScreenshot(screenshot);
       createPaymentApprovalRequest(fetchedUser, user.name, user.phone, amount, utrNumber, screenshotUrl)

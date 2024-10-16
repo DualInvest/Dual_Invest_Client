@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { handleDeleteAccount } from "../../Firebase/config.js";
 import { getUser } from "../../utils/getUser.js";
 import './css/profile.css';
+import { clearStoredUserId, retrieveUserIdSecurely } from '../Auth/StoreUserSecurely.js';
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -14,7 +15,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchedUser = localStorage.getItem('userId');
+    const fetchedUser = retrieveUserIdSecurely();
     if (fetchedUser) {
       getUser(fetchedUser)
         .then((userData) => {
@@ -39,7 +40,7 @@ const ProfilePage = () => {
     if (window.confirm('Are you sure you want to delete your account?')) {
       handleDeleteAccount()
         .then(() => {
-          localStorage.removeItem('userId');
+          clearStoredUserId();
           navigate('/login');
         })
         .catch((error) => {

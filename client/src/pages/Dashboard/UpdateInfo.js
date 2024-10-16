@@ -78,7 +78,7 @@ const EditUsersDetails = () => {
             <h1>Edit User Details</h1>
             <div className="form-section">
                 <h2>User Details</h2>
-                <table className="user-details-table">
+                <table className="user-details-table"> 
                     <tbody>
                         {userFields.map((key) => (
                             <tr key={key}>

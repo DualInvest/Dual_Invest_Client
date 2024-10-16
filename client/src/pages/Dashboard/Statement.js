@@ -3,6 +3,7 @@ import { db } from "../../Firebase/config.js";
 import { getDoc, doc } from "firebase/firestore";
 import './css/statement.css';
 import './../Admin/css/paymentRequests.css';
+import { retrieveUserIdSecurely } from '../Auth/StoreUserSecurely.js';
 
 
 const Statement = () => {
@@ -31,7 +32,7 @@ const Statement = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const userId = localStorage.getItem('userId');
+                const userId = retrieveUserIdSecurely();
                 if (!userId) {
                     throw new Error('User ID not found');
                 }
@@ -76,7 +77,7 @@ const Statement = () => {
                 console.log('Transactions:', transactions);
                 console.log('Withdrawals:', withdrawals);
                 settransactionsArray(sortedTransactions);
-                setwithdrawalsArray(sortedWithdrawals);
+                setwithdrawalsArray(sortedWithdrawals); 
             }
         };
 

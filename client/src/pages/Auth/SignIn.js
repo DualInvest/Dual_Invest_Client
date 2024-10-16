@@ -7,9 +7,10 @@ import "./signIn.css"; // CSS file
 import { useDispatch } from "react-redux";
 import { authActions } from "../../redux/store.js";
 import { Skeleton } from "@mui/material";
-import { checkUserExists } from "../../Firebase/config.js";
+import { checkUserExists } from "../../Firebase/config.js"; 
 import axios from 'axios';
 import { generateOTP } from "../../utils/generateCodes.js";
+import { retrieveUserIdSecurely, storeUserIdSecurely } from "./StoreUserSecurely.js";
 
 function Login() {
   const history = useNavigate();
@@ -17,7 +18,7 @@ function Login() {
   const [loading, setLoading] = useState(true);
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [otpSent, setOtpSent] = useState(false);
   const [timer, setTimer] = useState(60);
   const [otp1, setOtp1] = useState('');
@@ -25,7 +26,9 @@ const [userUID, setUserUID] = useState('');
 
   useEffect(() => {
     setOtp1(generateOTP());
-    const fetchedUser = localStorage.getItem('userId');
+    
+    const fetchedUser = retrieveUserIdSecurely();
+    // const fetchedUser = localStorage.getItem('userId');
     if (fetchedUser) {
       history('/dashboard');
     }
@@ -109,7 +112,8 @@ const [userUID, setUserUID] = useState('');
         setOtp('');
         return;
       } else {
-        localStorage.setItem("userId", userUID);
+        storeUserIdSecurely(userUID);
+        // localStorage.setItem("userId", userUID);
         // localStorage.setItem("phoneNumber", data?.user.phone);
         dispatch(authActions.login());
         if (phone === "7976189199" || phone === '9772090543') {

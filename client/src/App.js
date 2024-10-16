@@ -5,7 +5,7 @@ import Navbar from './components/Navbar/Navbar.js';
 import NotFound from './components/NotFound/NotFound.js';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import DashboardScreen from './pages/Dashboard/Dashboard.js';
-import ForgotPassword from './pages/Auth/ForgotPassword.js';
+// import ForgotPassword from './pages/Auth/ForgotPassword.js';
 import SignUp from './pages/Auth/SignUp.js';
 import SignIn from './pages/Auth/SignIn.js';
 import Profile from './pages/Dashboard/Profile.js';
@@ -25,13 +25,14 @@ import FAQs from './pages/Dashboard/FAQs.js';
 import PrivacyPolicyPage from './pages/Dashboard/PrivacyPolicy.js';
 import AdminDashboard from './pages/Admin/AdminDashboard.js';
 import NavbarBeforeLogin from './components/NavbarBeforeLogin/NavbarBeforeLogin.jsx';
-import PhoneAuth from './pages/Auth/PhoneAuth.js';
+// import PhoneAuth from './pages/Auth/PhoneAuth.js';
 import PaymentRequest from './pages/Admin/PaymentRequest.js';
 import EditUserDetails from './pages/Admin/EditUserDetails.js';
 import WithdrawalRequest from './pages/Admin/WithdrawalRequests.js';
 import KYCRequest from './pages/Admin/KYCRequests.js';
 import { getUser } from "./utils/getUser.js";
 import FloatingButton from './components/FloatingButton/FloatingButton.js';
+import { retrieveUserIdSecurely } from './pages/Auth/StoreUserSecurely.js';
 
 function App() {
   // Check if user is authenticated
@@ -41,11 +42,14 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true); // State to track loading status
 
-  const fetchedUser = localStorage.getItem('userId');
+  // const fetchedUser = localStorage.getItem('userId');
+  const fetchedUser = retrieveUserIdSecurely();
 
   useEffect(() => {
     const checkAuthentication = () => {
-      const userId = localStorage.getItem('userId');
+
+      const userId = retrieveUserIdSecurely();
+      // const userId = localStorage.getItem('userId');
       setAuthenticated(!!userId);
     };
 
@@ -85,7 +89,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<SignIn />} />
-        <Route path="/resetpassword" element={<ForgotPassword />} />
+        {/* <Route path="/resetpassword" element={<ForgotPassword />} /> */}
         <Route path="/faqs" element={<FAQs />} />
         <Route path="/tnc" element={<TnC />} />
         <Route path="/howtouse" element={<HowToUsePage />} />
@@ -114,7 +118,7 @@ function App() {
             <Route path="/edit-user/:userId" element={<EditUserDetails />} /> {/* Add route for EditUserDetails */}
           </>
         )}
-        <Route path="/phoneauth" element={<PhoneAuth />} />
+        {/* <Route path="/phoneauth" element={<PhoneAuth />} /> */}
         {user && (
           <Route path="*" element={<NotFound />} />
         )}

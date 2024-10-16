@@ -12,14 +12,17 @@ import SlidingImages from "../../components/SlidingImages/SlidingImages.js"
 // import axios from "axios";
 // import { connectStorageEmulator } from "firebase/storage";
 import { Typography } from "@mui/material";
+import { retrieveUserIdSecurely } from "../Auth/StoreUserSecurely.js";
 
 function DashboardScreen() {
     const [userData, setUser] = useState(null);
-    const [withdrawalApprovalRequest, setWithdrawalApprovalRequest] = useState(false);
-    const history = useNavigate();
-    const fetchedUser = localStorage.getItem('userId');
+    // const [withdrawalApprovalRequest, setWithdrawalApprovalRequest] = useState(false);
     const [formOpen, setFormOpen] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(true); // State for popup visibility
+
+    
+    const history = useNavigate();
+    const fetchedUser = retrieveUserIdSecurely();
 
     useEffect(() => {
         if (fetchedUser) {
@@ -70,7 +73,7 @@ function DashboardScreen() {
 
         createWithdrawalApprovalRequest(fetchedUser, userData.name, userData.phone, amount, userData.accountNumber, userData.ifscCode, userData.cardholderName)
             .then((response) => {
-                setWithdrawalApprovalRequest(true);
+                // setWithdrawalApprovalRequest(true);
                 fetch('/send-email-withdrawal', {
                     method: 'POST',
                     headers: {

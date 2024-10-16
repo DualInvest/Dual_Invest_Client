@@ -9,19 +9,24 @@ import ToastMessage from '../Toast/Toast.js';
 import { getUser } from '../../utils/getUser.js';
 import axios from 'axios';
 import { createKYCApprovalRequest } from '../../Firebase/config.js';
+import { retrieveUserIdSecurely } from '../../pages/Auth/StoreUserSecurely.js';
 
 function Step3Form() {
   const history = useNavigate();
   const [aadharCard, setAadharCard] = useState(null);
   const [panCard, setPanCard] = useState(null);
   const [loading, setLoading] = useState(false);
-  const currentUser = localStorage.getItem('userId');
   const [showToast, setShowToast] = useState(false);
   const [accountNumber, setAccountNumber] = useState('');
   const [ifscCode, setIFSCCode] = useState('');
   const [cardholderName, setCardholderName] = useState('');
   const [formCompleted, setFormCompleted] = useState(false);
   const [user, setUser]= useState(null);
+
+
+  const currentUser = retrieveUserIdSecurely();
+  // const currentUser = localStorage.getItem('userId');
+
   useEffect(() => {
     // Check if all fields are filled
     if (aadharCard && panCard && accountNumber && ifscCode && cardholderName) {
@@ -31,7 +36,8 @@ function Step3Form() {
     }
   }, [aadharCard, panCard, accountNumber, ifscCode, cardholderName]);
   useEffect(() => {
-    const fetchedUser = localStorage.getItem('userId');
+
+    const fetchedUser = retrieveUserIdSecurely();
     if (fetchedUser) {
       getUser(fetchedUser)
         .then((userData) => {

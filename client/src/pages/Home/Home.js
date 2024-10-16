@@ -7,6 +7,7 @@ import PerfectPlan from "../../components/PerfectPlan/PerfectPlan.jsx";
 import InvestorReviews from "../../components/InvestorReviews/InvestorReviews.jsx";
 import HiddenImageComponent from "../../components/HiddenImageComponent/HiddenImageComponent.js";
 import { getUser } from "../../utils/getUser.js";
+import { retrieveUserIdSecurely } from "../Auth/StoreUserSecurely.js";
 
 
 export default function Home() {
@@ -17,7 +18,8 @@ export default function Home() {
 
 
   useEffect(() => {
-    const fetchedUser = localStorage.getItem('userId');
+
+    const fetchedUser = retrieveUserIdSecurely();
     if (fetchedUser) {
       getUser(fetchedUser)
         .then((userData) => {

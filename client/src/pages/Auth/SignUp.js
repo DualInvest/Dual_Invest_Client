@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../redux/store.js";
 import axios from 'axios';
 import { generateOTP, generateRandomUID } from "../../utils/generateCodes.js";
+import { storeUserIdSecurely, retrieveUserIdSecurely, clearStoredUserId } from "./StoreUserSecurely.js";
 
 function SignUp() {
   const history = useNavigate();
@@ -21,27 +22,28 @@ function SignUp() {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [user, setUser] = useState(null);
-  const [confirmationResult, setConfirmationResult] = useState(null);
-  const [captchaVerified, setCaptchaVerified] = useState(false);
+  // const [user, setUser] = useState(null);
+  // const [confirmationResult, setConfirmationResult] = useState(null);
+  // const [captchaVerified, setCaptchaVerified] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [timer, setTimer] = useState(60);
-  const [directRefer,setDirectrefer] = useState("");
+  // const [directRefer,setDirectrefer] = useState("");
 
   const [otp1, setOtp1] = useState('');
-  const [otp2, setOtp2] = useState('');
+  // const [otp2, setOtp2] = useState('');
   const [userUID, setUserUID] = useState('');
   
   useEffect(() => {
     setOtp1(generateOTP());
     setUserUID(generateRandomUID());
-    const fetchedUser = localStorage.getItem('userId');
+
+    const fetchedUser = retrieveUserIdSecurely();
     if (fetchedUser) {
       history('/dashboard');
     }
     const query = new URLSearchParams(location.search);
     const referralCode = query.get("referralCode");
-    setDirectrefer(referralCode);
+    // setDirectrefer(referralCode);
     if (referralCode) {
       setFormData((prevData) => ({
         ...prevData,
@@ -58,11 +60,11 @@ function SignUp() {
     });
   };
 
-  const handleParentReferralCode = async (childrenId) => {
-    console.log("Entered handle Referral ", childrenId);
-    const dummyData = await axios.get(`/api/parentReferralUpdate/${childrenId}`);
-    console.log("Referral Dummy Data:", dummyData);
-  };
+  // const handleParentReferralCode = async (childrenId) => {
+  //   console.log("Entered handle Referral ", childrenId);
+  //   const dummyData = await axios.get(`/api/parentReferralUpdate/${childrenId}`);
+  //   console.log("Referral Dummy Data:", dummyData);
+  // };
 
   // const sendOTP = async () => {
   //   try {
@@ -114,7 +116,7 @@ const handleGenerateOtp = async () => {
     const number = phone+otp1;
     // console.log('OTP1:', otp1, 'OTP2:', otp2);
     const response = await axios.get(`/api/sendotp/${number}`);
-    console.log("Response Daat: ", response.data);
+    console.log("Response Data: ", response.data);
   setOtpSent(true);
   setTimer(60);
   const interval = setInterval(() => {
@@ -153,14 +155,14 @@ const handleGenerateOtp = async () => {
             // handleParentReferralCode(userUID);
           }
         });
-        localStorage.setItem("userId", userUID);
-        // localStorage.setItem("phoneNumber", phone);
+        storeUserIdSecurely(userUID);
+        // localStorage.setItem("userId", userUID);
         dispatch(authActions.login());
         if (phone === '7976189199' || phone === '9772090543') {
           history("/admin");
         }else{
           history("/dashboard");
-        }
+        } 
       }
     } catch (error) {
       console.error('Error verifying OTP:', error);

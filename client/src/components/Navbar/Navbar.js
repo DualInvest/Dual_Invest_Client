@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUser } from "../../utils/getUser.js";
-import { auth } from '../../Firebase/config.js';
+// import { auth } from '../../Firebase/config.js';
 import './navbar.css';
 import { Button, Drawer, List, ListItem, Typography } from '@mui/material';
+import { clearStoredUserId, retrieveUserIdSecurely } from '../../pages/Auth/StoreUserSecurely.js';
 
 function Navbar() {
   const history = useNavigate();
@@ -11,7 +12,8 @@ function Navbar() {
   const [userData, setUser] = useState(null);
 
   useEffect(() => {
-    const fetchedUser = localStorage.getItem('userId');
+
+    const fetchedUser = retrieveUserIdSecurely();
     if (fetchedUser) {
       getUser(fetchedUser)
         .then((userData) => {
@@ -34,7 +36,7 @@ function Navbar() {
   const handleSignOut = () => {
     // auth.signOut()
     //   .then(() => {
-    localStorage.removeItem('userId');
+      clearStoredUserId();
     history('/');
     //   })
     //   .catch(error => {
