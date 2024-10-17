@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { createUserDocumentFast2SMS } from "../../Firebase/config.js";
+import { checkUserExists, createUserDocumentFast2SMS } from "../../Firebase/config.js";
 // import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import "./signUp.css";
@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../redux/store.js";
 import axios from 'axios';
 import { generateOTP, generateRandomUID } from "../../utils/generateCodes.js";
-import { storeUserIdSecurely, retrieveUserIdSecurely, clearStoredUserId } from "./StoreUserSecurely.js";
+import { storeUserIdSecurely, retrieveUserIdSecurely } from "./StoreUserSecurely.js";
 
 function SignUp() {
   const history = useNavigate();
@@ -104,6 +104,12 @@ function SignUp() {
 
 
 const handleGenerateOtp = async () => {
+  const userLocalId= await checkUserExists(phone);
+  if (userLocalId!=="") {
+    alert('User already exists. Please login.');
+    history('/login');
+    return;
+  }
   if (!phone || formData.user_name === '') {
     alert('Please enter your phone number and full name.');
     return;

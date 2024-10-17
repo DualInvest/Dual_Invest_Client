@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+// import axios from "axios";
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, setPersistence, browserSessionPersistence, deleteUser } from "firebase/auth";
@@ -366,3 +367,19 @@ export const rejectKYCApprovalRequest = async (userId, downloadURL1,documentURL2
     console.error('Error updating document URL:', error);
   }
 }
+
+// export const updateAllUsers = async () => {
+//   try {
+//     const response = await axios.get(`/api/updateAllUsers`);
+//     // Check if the response is successful
+//     if (response.status === 200) {
+//       console.log('All users updated successfully:', response.data);
+//       return response.data;
+//     } else {
+//       console.error('Error updating users:', response.status);
+//       return null;
+//     }
+//   } catch (error) {
+//     console.error('Error making the API request: ', error);
+//   }
+// };

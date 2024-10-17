@@ -147,6 +147,7 @@ function DashboardScreen() {
                 </div>
                 <center className="buttons-container mt-5">
                     <button className="add-money-button btn-1" onClick={addMoneyOnClick}>Add Money</button>
+                    {/* <button className="add-money-button btn-1" onClick={updateAllUsers}>Update all Users</button> */}
                     <button
                         className="add-money-button btn-2"
                         onClick={handelWithdrawalApprovalRequest}
@@ -177,7 +178,7 @@ function DashboardScreen() {
             </center>
             <center>
                 <div className="card-referral" >
-                    <img src="assets/referralImg.jpg" className="card-img-top" alt="Referral Image" />
+                    <img src="assets/referralImg.jpg" className="card-img-top" alt="Referral" />
                     <div className="card-body">
                         <h5 className="card-title">Referral Scheme !</h5>
                         <p className="card-text"> Earn daily returns by referring friends! Get 0.3% return of the referred friend's investment. Plus, earn 0.2% when they refer someone, and 0.1% from the subsequent referrals. Start investing and referring today to maximize your earnings!

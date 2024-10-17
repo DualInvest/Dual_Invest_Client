@@ -138,6 +138,47 @@ app.get("/api/getAllUsers", async (req, res) => {
   const users = snapshot.docs.map(doc => doc.data());
   res.json(users);
 });
+
+// app.get('/api/updateAllUsers', async (req, res) => {
+//   try {
+//     const usersRef = firestore.collection('users'); // Reference to 'users' collection
+//     const snapshot = await usersRef.get(); // Get all user documents
+
+//     const batch = firestore.batch(); // Start a batch operation
+
+//     // Iterate through each document in the snapshot
+//     snapshot.docs.forEach((docSnapshot) => {
+//       const userRef = usersRef.doc(docSnapshot.id); // Get the document reference
+//       const userData = docSnapshot.data(); // Get the data of each user
+
+//       // Ensure the username field exists
+//       const username = userData.name || 'Unknown User';
+
+//       // Determine the value for kycReq based on kycDone
+//       const kycReqValue = userData.kycDone === true ? 'accepted' : '';
+
+//       // Prepare the batch update for each user document
+//       batch.update(userRef, {
+//         // address: "INDIA", // New field to add
+//         kycReq: kycReqValue, // Update kycReq
+//         withdrawalReq: "" // Set withdrawalReq to an empty string
+//       });
+
+//       // Log the update for each user using the username
+//       console.log(`User ${username} updated:`);
+//     });
+
+//     // Commit the batch update
+//     await batch.commit();
+
+//     res.status(200).json({ message: 'All users updated successfully' });
+//   } catch (error) {
+//     console.error('Error updating users:', error);
+//     res.status(500).json({ error: 'Failed to update users' });
+//   }
+// });
+
+
 app.get("/api/getUserDetails/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;

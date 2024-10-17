@@ -8,3 +8,22 @@
 
 3. No multiple withdrawal… just once .. if it’s rejected then one can again apply for withdrawal.
 -->DONE 
+
+14 October 
+
+1. Code Update -->DONE  
+
+
+15 October 
+
+1. List of referredUsers in Statement -->DONE 
+2. Code update -->DONE 
+
+16 October 
+
+1. Added security Layer -->DONE  
+2. Payment, Withdrawal and KYC requests newest at top and oldest at bottom -->DONE  
+
+17 October 
+
+1. If user has one account and he tries to sign up again with the same number then redirect to login screen -->DONE 
