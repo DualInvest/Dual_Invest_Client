@@ -16,10 +16,10 @@ import { retrieveUserIdSecurely } from "../Auth/StoreUserSecurely.js";
 
 function DashboardScreen() {
     const [userData, setUser] = useState(null);
-    // const [withdrawalApprovalRequest, setWithdrawalApprovalRequest] = useState(false);
+    const [withdrawalApprovalRequest, setWithdrawalApprovalRequest] = useState(false);
     const [formOpen, setFormOpen] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(true); // State for popup visibility
-
+    const [isLoading, setIsLoading]=useState(false);
     
     const history = useNavigate();
     const fetchedUser = retrieveUserIdSecurely();
@@ -70,10 +70,12 @@ function DashboardScreen() {
             alert('Insufficient Withdrawable Amount - Your Withdrawable Amount is ₹' + (userData.withdrawableAmount).toFixed(2));
             return;
         }
+        setIsLoading(true);
 
         createWithdrawalApprovalRequest(fetchedUser, userData.name, userData.phone, amount, userData.accountNumber, userData.ifscCode, userData.cardholderName)
             .then((response) => {
-                // setWithdrawalApprovalRequest(true);
+                setIsLoading(false);
+                setWithdrawalApprovalRequest(true);
                 fetch('/send-email-withdrawal', {
                     method: 'POST',
                     headers: {
@@ -94,6 +96,7 @@ function DashboardScreen() {
                     })
             })
             .catch((error) => {
+                setIsLoading(false);
                 console.log(error);
             })
     };
@@ -151,8 +154,8 @@ function DashboardScreen() {
                     <button
                         className="add-money-button btn-2"
                         onClick={handelWithdrawalApprovalRequest}
-                        disabled={userData?.withdrawalReq === "pending"}>
-                        {userData?.withdrawalReq === "pending" ? 'Req. sent ! Wait for approval !' : 'Withdraw'}
+                        disabled={userData?.withdrawalReq === "pending" || withdrawalApprovalRequest || isLoading}>
+                        { isLoading ? <i className="fa-solid fa-spinner fa-spin"></i> : userData?.withdrawalReq === "pending" || withdrawalApprovalRequest ? 'Req. sent ! Wait for approval !' : 'Withdraw'}
                     </button>
                 </center>
             </div>
