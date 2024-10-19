@@ -115,7 +115,7 @@ export default function KYCRequest() {
           {[...KYCRequests].map((request, index) => (
             <li
               key={request.id}
-              className="payment-item d-flex flex-column align-items-start mb-3"
+              className="payment-item d-flex justify-content-between align-items-center"
             >
               <div className="payment-item-details">
                 <span className="payment-item-name">{index + 1} .  {request.name}</span>
