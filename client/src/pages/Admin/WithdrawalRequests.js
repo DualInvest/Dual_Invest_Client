@@ -20,7 +20,8 @@ export default function WithdrawalRequest() {
         const fetchWithdrawalRequests = async () => {
             try {
                 const response = await axios.get(`/api/getAllWithdrawalRequests`);
-                const sortedWithdrawalRequests = response.data.sort((a, b) => {
+                const filteredWithdrawalRequests = response.data.filter(request => !request.isDeletedByAdmin);
+                const sortedWithdrawalRequests = filteredWithdrawalRequests.sort((a, b) => {
                     const dateA = new Date(a.createdAt._seconds * 1000 + a.createdAt._nanoseconds / 1000000);
                     const dateB = new Date(b.createdAt._seconds * 1000 + b.createdAt._nanoseconds / 1000000);
                     return dateB - dateA; // Sort in descending order (newest first)
@@ -36,6 +37,25 @@ export default function WithdrawalRequest() {
         fetchWithdrawalRequests();
     }, []);
 
+    const handleDelete = async (requestId) => {
+        try {
+           const reqName='withdrawalApprovalRequests';
+            // Make a PATCH request to the server to mark the payment request as deleted
+           const res = await axios.get(`/api/deleteReq/${reqName}/${requestId}`);
+            setWithdrawalRequests(prevRequests =>
+              prevRequests.filter(request => request.id !== requestId)
+            );
+            if(res.status === 200) {
+                console.log(res.data);
+            }else{
+                console.error('Error deleting withdrawal request:', res.status);
+                alert('Error deleting withdrawal request. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error calling api request:', error);
+            alert('Error  calling api . Please try again.');
+          }
+    };
     const handleAccept = async (userId, amount, request) => {
         // Implement logic for accepting withdrawal request
         if (acceptButtonLoading) return; // If button is already loading, prevent further action
@@ -168,15 +188,25 @@ export default function WithdrawalRequest() {
                                         <Button variant="danger" onClick={() => handleReject(request.userId, request.amount, request)} disabled={rejectButtonLoading}>Reject</Button>
                                     </>
                                 )}
-                                {request.status === 'accepted' && (
-                                    <span className="text-success">Accepted</span>
-                                )}
+                                                                {request.status === 'accepted' && (
+                                    <>
+                                        <span className="text-success payment-item-status-success" style={{ fontWeight: 'bold', marginRight:"15px" }}>Accepted</span>
+                                        <Button variant="danger" onClick={() => handleDelete(request.id)}><i className='fas fa-trash'></i></Button>
+                                    </>)}
                                 {request.status === 'rejected' && (
-                                    <span className="text-danger">Rejected</span>
-                                )}
+                                    <>
+                                        <span className="text-danger payment-item-status-danger" style={{ fontWeight: 'bold', marginRight:"15px" }} >Rejected</span>
+                                        <Button variant="danger" onClick={() => handleDelete(request.id)}><i className='fas fa-trash'></i></Button>
+
+                                    </>)}
                             </div>
                         </li>
                     ))}
+                    {withdrawalRequests.length === 0 && (
+                        <li className="withdrawal-item d-flex justify-content-center align-items-center">
+                            <span>No withdrawal requests found</span>
+                        </li>
+                    )}
                 </ul>
             </div>
 

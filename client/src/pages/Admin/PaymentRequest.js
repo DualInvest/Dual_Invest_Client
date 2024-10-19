@@ -19,19 +19,21 @@ export default function PaymentRequest() {
         const fetchPaymentRequests = async () => {
             try {
                 const response = await axios.get(`/api/getAllPaymentRequests`);
+                // Filter out payment requests that are marked as deleted by admin
+                const filteredPaymentRequests = response.data.filter(request => !request.isDeletedByAdmin);
+                const sortedPaymentRequests = filteredPaymentRequests.sort((a, b) => {
+                // const sortedPaymentRequests = response.data.sort((a, b) => {
+                    // Debugging: Log the createdAt fields
+                    // console.log("createdAt A:", a.createdAt);
+                    // console.log("createdAt B:", b.createdAt);
 
-                const sortedPaymentRequests = response.data.sort((a, b) => {
-                            // Debugging: Log the createdAt fields
-                            // console.log("createdAt A:", a.createdAt);
-                            // console.log("createdAt B:", b.createdAt);
-        
-                            // Convert createdAt to Date objects
-                            const dateA = new Date(a.createdAt._seconds * 1000 + a.createdAt._nanoseconds / 1000000);
-                            const dateB = new Date(b.createdAt._seconds * 1000 + b.createdAt._nanoseconds / 1000000);
-                            
-                            // Debugging: Log the converted dates
-                            // console.log("Dates", dateA, dateB);
-                            
+                    // Convert createdAt to Date objects
+                    const dateA = new Date(a.createdAt._seconds * 1000 + a.createdAt._nanoseconds / 1000000);
+                    const dateB = new Date(b.createdAt._seconds * 1000 + b.createdAt._nanoseconds / 1000000);
+
+                    // Debugging: Log the converted dates
+                    // console.log("Dates", dateA, dateB);
+
                     // Sort in descending order (newest first)
                     return dateB - dateA;
                 });
@@ -144,7 +146,39 @@ export default function PaymentRequest() {
         setShowModal(false);
         // setSelectedPaymentRequest(null);
     };
-
+    // const updateRequests = async () => {
+    //     try {
+    //         const response = await axios.get(`/api/updateAllRequests`);
+    //         if (response.status === 200) {
+    //             console.log('All paymentRequests updated successfully:', response.data);
+    //             return response.data;
+    //         } else {
+    //             console.error('Error updating paymentRequests:', response.status);
+    //             return null;
+    //         }
+    //     } catch (error) {
+    //         console.error('Error making the API request: ', error);
+    //     }
+    // };
+    const handleDelete = async (requestId) => {
+        try {
+            const req = 'paymentApprovalRequests';
+            // Make a PATCH request to the server to mark the payment request as deleted
+           const res = await axios.get(`/api/deleteReq/${req}/${requestId}`);
+            setPaymentRequests(prevRequests =>
+              prevRequests.filter(request => request.id !== requestId)
+            );
+            if(res.status === 200) {
+                console.log(res.data);
+            }else{
+                console.error('Error deleting payment request:', res.status);
+                alert('Error deleting payment request. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error calling api request:', error);
+            alert('Error  calling api . Please try again.');
+          }
+    };
     return (
         <div className="payment-container">
             <h1 className='text-center mt-5 my-5'>Payment Requests</h1>
@@ -177,6 +211,7 @@ export default function PaymentRequest() {
                                     <strong>Proof</strong> : <a href={request.proofURL} download target="_blank">
                                         Download PDF
                                     </a>
+                                    {/* <button onClick={handleDelete}> updatePaymentRequests </button> */}
                                 </p>
 
                             </div>
@@ -188,14 +223,24 @@ export default function PaymentRequest() {
                                     </>
                                 )}
                                 {request.status === 'accepted' && (
-                                    <span className="text-success payment-item-status-success" style={{ fontWeight: 'bold' }}>Accepted</span>
-                                )}
+                                    <>
+                                        <span className="text-success payment-item-status-success" style={{ fontWeight: 'bold', marginRight:"15px" }}>Accepted</span>
+                                        <Button variant="danger" onClick={() => handleDelete(request.id)}><i className='fas fa-trash'></i></Button>
+                                    </>)}
                                 {request.status === 'rejected' && (
-                                    <span className="text-danger payment-item-status-danger" style={{ fontWeight: 'bold' }} >Rejected</span>
-                                )}
+                                    <>
+                                        <span className="text-danger payment-item-status-danger" style={{ fontWeight: 'bold', marginRight:"15px" }} >Rejected</span>
+                                        <Button variant="danger" onClick={() => handleDelete(request.id)}><i className='fas fa-trash'></i></Button>
+
+                                    </>)}
                             </div>
                         </li>
                     ))}
+                    {paymentRequests.length === 0 && (
+                        <li className="payment-item d-flex justify-content-center align-items-center">
+                            <span>No payment requests found</span>
+                        </li>
+                    )}
                 </ul>
             </div>
 

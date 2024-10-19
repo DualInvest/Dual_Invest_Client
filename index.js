@@ -213,6 +213,53 @@ app.get("/api/getAllPaymentRequests", async (req, res) => {
   }
 });
 
+app.get("/api/deleteReq/:reqName/:reqId", async (req, res) => {
+  try {
+    const reqId = req.params.reqId;
+    const reqName = req.params.reqName;
+    console.log("Request ID: ", reqId);
+    console.log("Request Name", reqName);
+    const RequestRef = firestore.collection(reqName).doc(reqId);
+    await RequestRef.update({
+      isDeletedByAdmin: true
+    });
+    res.status(200).json({ message: `${reqName} request deleted successfully` });
+  } catch (error) {
+    console.error(`Error fetching ${reqName} request:`, error);
+    res.status(500).json({ error: `Error fetching ${reqName} request:` });
+  }
+});
+
+// app.get('/api/updateAllRequests', async (req, res) => {
+//   try {
+//     const paymentRequestsRef = firestore.collection('paymentApprovalRequests');
+//     const snapshot = await paymentRequestsRef.get();
+//     const batch = firestore.batch(); // Start a batch operation
+
+//     // Iterate through each document in the snapshot
+//     snapshot.docs.forEach((docSnapshot) => {
+//       const paymentRequestRef = paymentRequestsRef.doc(docSnapshot.id);
+//       const paymentRequestData = docSnapshot.data();
+//       const username = paymentRequestData.name || 'Unknown User';
+
+//       batch.update(paymentRequestRef, {
+//         isDeletedByAdmin: false
+//       });
+
+//       // Log the update for each user using the username
+//       console.log(`Request ${username} updated:`);
+//     });
+
+//     // Commit the batch update
+//     await batch.commit();
+
+//     res.status(200).json({ message: 'All paymentRequests updated successfully' });
+//   } catch (error) {
+//     console.error('Error updating paymentRequests:', error);
+//     res.status(500).json({ error: 'Failed to update paymentRequests' });
+//   }
+// });
+
 app.get("/api/getAllKYCRequests", async (req, res) => {
   try {
     const kycsRef = firestore.collection('KYCApprovalRequests');
